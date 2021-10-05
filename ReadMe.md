@@ -1,5 +1,16 @@
 # HDF
 
+## Description
+
+- Current version 5
+- Binary file format
+- **Groups**:
+  - Specify location of data
+  - Can be compared to directory/dictionary keys
+- **Data Sets**:
+  - Store data
+  - Can be compared to multidimensional arrays/tables
+
 ## Links
 
 ### Information
