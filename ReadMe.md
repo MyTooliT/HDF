@@ -28,6 +28,7 @@
 
 - [PyTables](http://www.pytables.org)
   - Database like interface to HDF5
+  - Installation requires HDF5 C library
 
 ### Tools
 
