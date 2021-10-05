@@ -24,6 +24,7 @@
 
   - Mapping from HDF5 library to Python and `numpy`
   - Seems to be a [little slower than PyTables](https://stackoverflow.com/questions/57953554)
+  - [Example](Source/h5.py)
 
 - [PyTables](http://www.pytables.org)
   - Database like interface to HDF5
