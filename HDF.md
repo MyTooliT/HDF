@@ -1,6 +1,22 @@
 # HDF
 
-## Tools
+## Links
+
+## Information
+
+- [Learning HDF5](https://portal.hdfgroup.org/display/HDF5/Learning+HDF5)
+
+### Libraries
+
+- [h5py](http://h5py.org)
+
+  - Mapping from HDF5 library to Python and `numpy`
+  - Seems to be a [little slower than PyTables](https://stackoverflow.com/questions/57953554)
+
+- [PyTables](http://www.pytables.org)
+  - Database like interface to HDF5
+
+### Tools
 
 - [`h5dump`](https://portal.hdfgroup.org/display/support/Downloads)
   - Prints data contained in an HDF5 file
