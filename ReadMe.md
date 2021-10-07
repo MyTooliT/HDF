@@ -22,6 +22,8 @@
 
   - Mapping from HDF5 library to Python and `numpy`
   - Seems to be a [little slower than PyTables](https://stackoverflow.com/questions/57953554)
+  - **Size of data is fixed** and can be resized later up to a fixed chosen maximum
+    - This should not be a big problem since storing a large amount of data with value `0` still results in a `1` KB file
   - [Example](Source/h5.py)
 
 - [PyTables](http://www.pytables.org)
