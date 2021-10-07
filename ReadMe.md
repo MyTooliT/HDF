@@ -12,13 +12,11 @@
   - Store data
   - Can be compared to multidimensional arrays/tables
 
-## Links
-
-### Information
+## Information
 
 - [Learning HDF5](https://portal.hdfgroup.org/display/HDF5/Learning+HDF5)
 
-### Libraries
+## Libraries
 
 - [h5py](http://h5py.org)
 
@@ -31,7 +29,7 @@
   - Installation requires HDF5 C library
   - [Example](Source/pytables.py)
 
-### Tools
+## Tools
 
 - [`h5dump`](https://portal.hdfgroup.org/display/support/Downloads)
   - Prints data contained in an HDF5 file
