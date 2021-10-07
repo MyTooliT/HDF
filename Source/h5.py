@@ -8,7 +8,7 @@ from h5py import File
 
 
 def create_hdf(filename):
-    with File("h5py.hdf5", 'w') as test:
+    with File(filename, 'w') as test:
         print(
             "Create two dimensional data set “simple” with integer data type")
         data = test.create_dataset("simple", (100, ), dtype='i')
