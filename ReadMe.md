@@ -40,3 +40,16 @@
   - Graphical viewer and editor for HDF5 files
 - [HDF View](https://www.hdfgroup.org/downloads/hdfview/)
   - Official graphical viewer and editor for HDF files
+
+## Comparison
+
+Data sizes for 60 seconds of measurement data containing:
+
+- time in ms since file creation
+- message counter
+- time stamp
+- acceleration value
+
+| Log File | CSV     | HDF |
+| -------- | ------- | --- |
+| ~ 40 MB  | ~ 15 MB |     |
