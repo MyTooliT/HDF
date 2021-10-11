@@ -19,10 +19,10 @@ def read_log(filepath):
             match = line_regex.match(line)
             if match:
                 values.append({
-                    'Millisecond': match['ms'],
-                    'Counter': match['counter'],
-                    'Timestamp': match['timestamp'],
-                    'Acceleration': match['acceleration']
+                    'millisecond': match['ms'],
+                    'counter': match['counter'],
+                    'timestamp': match['timestamp'],
+                    'acceleration': match['acceleration']
                 })
 
     return values
@@ -32,7 +32,7 @@ def convert_csv(filepath, values):
     """Convert acceleration data to CSV file"""
 
     with open(Path(filepath).with_suffix(".csv"), 'w', newline='') as csvfile:
-        fieldnames = ['Millisecond', 'Counter', 'Timestamp', 'Acceleration']
+        fieldnames = ['millisecond', 'counter', 'timestamp', 'acceleration']
         writer = DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
