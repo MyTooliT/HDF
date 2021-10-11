@@ -50,6 +50,16 @@ Data sizes for 60 seconds of measurement data containing:
 - time stamp
 - acceleration value
 
-| Log File | CSV     | HDF |
-| -------- | ------- | --- |
-| ~ 40 MB  | ~ 15 MB |     |
+| Log File | CSV     | HDF (Uncompressed) |
+| -------- | ------- | ------------------ |
+| ~ 42 MB  | ~ 17 MB | ~ 18 MB            |
+
+### Tool
+
+For the data above we used the Python script [`convert.py`](Source/convert.py):
+
+```
+python Source/convert.py
+```
+
+The script will store the output files in the directory [`Data`](Data).
