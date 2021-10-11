@@ -11,7 +11,7 @@ def read_log(filepath):
     """Read acceleration log data"""
 
     line_regex = compile(r"\[I\]\s*\((?P<ms>\d+)ms\)[^\d]+(?P<counter>\d+)"
-                         r"[^\d]+(?P<timestamp>\d+(\.\d+)?)[^d]+"
+                         r"[^\d]+(?P<timestamp>\d+(\.\d+)?)[^\d]+"
                          r"(?P<acceleration>\d+);")
     values = []
     with open(filepath) as file:
