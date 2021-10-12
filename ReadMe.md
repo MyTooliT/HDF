@@ -58,7 +58,7 @@ Data sizes for 60 seconds of measurement data containing:
 
 For the data above we used the Python script [`convert.py`](Source/convert.py):
 
-```
+```sh
 python Source/convert.py
 ```
 
