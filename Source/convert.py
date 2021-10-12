@@ -111,6 +111,8 @@ class Converter:
                                **compression_options)
 
 
+# -- Main ---------------------------------------------------------------------
+
 if __name__ == '__main__':
     print("Read log data")
     converter = Converter("Data/Log.txt")
