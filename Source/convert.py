@@ -78,8 +78,16 @@ class Converter:
             writer.writeheader()
             writer.writerows(self.values)
 
-    def store_hdf(self):
-        """Store acceleration data in HDF5 file"""
+    def store_hdf(self, compression=None):
+        """Store acceleration data in HDF5 file
+
+        Parameters
+        ----------
+
+        compression:
+            The algorithm that should be used to compress the data
+
+        """
 
         types = [('millisecond', int), ('counter', int), ('timestamp', float),
                  ('acceleration', int)]
@@ -90,8 +98,12 @@ class Converter:
         data['timestamp'] = asarray(self.timestamps)
         data['acceleration'] = asarray(self.acceleration)
 
-        with File(self.filepath.with_suffix(".hfd5"), 'w') as hdf:
+        algorithm = ("No" if compression is None else compression.capitalize())
+        filepath = self.filepath.with_name(
+            f"{self.filepath.stem}{algorithm}Compression").with_suffix(".hdf5")
+        with File(filepath, 'w') as hdf:
             hdf.create_dataset("acceleration",
+                               compression=compression,
                                data=data,
                                shape=(number_lines, ))
 
@@ -100,3 +112,4 @@ if __name__ == '__main__':
     converter = Converter("Data/Log.txt")
     converter.store_csv()
     converter.store_hdf()
+    converter.store_hdf(compression="gzip")
