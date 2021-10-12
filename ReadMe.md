@@ -66,8 +66,13 @@ The script will store the output files in the directory [`Data`](Data).
 
 #### Requirements
 
-To use the script you need Python `3.9` or later and the [`h5py`](https://www.h5py.org) package:
+To use the script you need Python `3.9` or later and the
+
+- [`h5py`](https://www.h5py.org) and
+- [`hdf5plugin`](https://pypi.org/project/hdf5plugin/)
+
+packages:
 
 ```sh
-pip install h5py
+pip install h5py hdf5plugin
 ```

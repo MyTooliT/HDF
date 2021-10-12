@@ -5,6 +5,7 @@ from pathlib import Path
 from re import compile
 
 from h5py import File
+from hdf5plugin import Bitshuffle, Blosc, FciDecomp, LZ4, Zfp, Zstd
 from numpy import asarray, recarray
 
 # -- Classes ------------------------------------------------------------------
@@ -78,14 +79,17 @@ class Converter:
             writer.writeheader()
             writer.writerows(self.values)
 
-    def store_hdf(self, compression=None):
+    def store_hdf(self, compression_name, **compression_options):
         """Store acceleration data in HDF5 file
 
         Parameters
         ----------
 
-        compression:
-            The algorithm that should be used to compress the data
+        compression_name:
+            A human readable name of the compression filter
+
+        compression_options:
+            A dictionary like object that specifies compression options
 
         """
 
@@ -98,18 +102,46 @@ class Converter:
         data['timestamp'] = asarray(self.timestamps)
         data['acceleration'] = asarray(self.acceleration)
 
-        algorithm = ("No" if compression is None else compression.capitalize())
         filepath = self.filepath.with_name(
-            f"{self.filepath.stem}{algorithm}Compression").with_suffix(".hdf5")
+            f"{self.filepath.stem}{compression_name}").with_suffix(".hdf5")
         with File(filepath, 'w') as hdf:
             hdf.create_dataset("acceleration",
-                               compression=compression,
                                data=data,
-                               shape=(number_lines, ))
+                               shape=(number_lines, ),
+                               **compression_options)
 
 
 if __name__ == '__main__':
+    print("Read log data")
     converter = Converter("Data/Log.txt")
+    print("Store CSV file")
     converter.store_csv()
-    converter.store_hdf()
-    converter.store_hdf(compression="gzip")
+
+    compression_options = [{
+        'compression': None,
+        'compression_name': "No Compression"
+    }, {
+        'compression': "gzip",
+        'compression_name': "GZip"
+    }, {
+        'compression': "lzf",
+        'compression_name': "LZF"
+    }]
+    compression_algorithms = [
+        Bitshuffle(),
+        Blosc(),
+        FciDecomp(),
+        LZ4(),
+        Zfp(),
+        Zstd(),
+    ]
+    compression_options.extend([{
+        'compression_name': type(compression).__name__,
+        **compression
+    } for compression in compression_algorithms])
+
+    for compression_option in compression_options:
+        name = compression_option['compression_name']
+        name = name.lower() if name == "No Compression" else name
+        print(f"Store HDF5 data using {name} algorithm")
+        converter.store_hdf(**compression_option)
