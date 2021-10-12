@@ -31,7 +31,6 @@ class Converter:
         self._read_log()
 
         # Store log data in row based format
-        self.milliseconds = []
         self.counters = []
         self.timestamps = []
         self.acceleration = []
@@ -40,7 +39,7 @@ class Converter:
     def _read_log(self):
         """Read acceleration log data"""
 
-        line_regex = compile(r"\[I\]\s*\((?P<ms>\d+)ms\)[^\d]+(?P<counter>\d+)"
+        line_regex = compile(r"\[I\]\s*\(\d+ms\)[^\d]+(?P<counter>\d+)"
                              r"[^\d]+(?P<timestamp>\d+(\.\d+)?)[^\d]+"
                              r"(?P<acceleration>\d+);")
         values = []
@@ -49,7 +48,6 @@ class Converter:
                 match = line_regex.match(line)
                 if match:
                     values.append({
-                        'millisecond': int(match['ms']),
                         'counter': int(match['counter']),
                         'timestamp': float(match['timestamp']),
                         'acceleration': int(match['acceleration'])
@@ -61,7 +59,6 @@ class Converter:
         """Store acceleration data as rows"""
 
         for value in self.values:
-            self.milliseconds.append(value['millisecond'])
             self.counters.append(value['counter'])
             self.timestamps.append(value['timestamp'])
             self.acceleration.append(value['acceleration'])
@@ -71,9 +68,7 @@ class Converter:
 
         with open(self.filepath.with_suffix(".csv"), 'w',
                   newline='') as csvfile:
-            fieldnames = [
-                'millisecond', 'counter', 'timestamp', 'acceleration'
-            ]
+            fieldnames = ['counter', 'timestamp', 'acceleration']
             writer = DictWriter(csvfile, fieldnames=fieldnames)
 
             writer.writeheader()
@@ -93,11 +88,10 @@ class Converter:
 
         """
 
-        types = [('millisecond', int), ('counter', uint8),
-                 ('timestamp', float), ('acceleration', uint16)]
-        number_lines = len(self.milliseconds)
+        types = [('counter', uint8), ('timestamp', float),
+                 ('acceleration', uint16)]
+        number_lines = len(self.values)
         data = recarray(number_lines, dtype=types)
-        data['millisecond'] = asarray(self.milliseconds)
         data['counter'] = asarray(self.counters)
         data['timestamp'] = asarray(self.timestamps)
         data['acceleration'] = asarray(self.acceleration)
