@@ -49,10 +49,10 @@ class Converter:
                 match = line_regex.match(line)
                 if match:
                     values.append({
-                        'millisecond': match['ms'],
-                        'counter': match['counter'],
-                        'timestamp': match['timestamp'],
-                        'acceleration': match['acceleration']
+                        'millisecond': int(match['ms']),
+                        'counter': int(match['counter']),
+                        'timestamp': float(match['timestamp']),
+                        'acceleration': int(match['acceleration'])
                     })
 
         self.values = values
