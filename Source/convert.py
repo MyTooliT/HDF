@@ -7,6 +7,7 @@ from re import compile
 from h5py import File
 from hdf5plugin import Bitshuffle, Blosc, FciDecomp, LZ4, Zfp, Zstd
 from numpy import asarray, recarray, uint8, uint16, uint64
+from tables import IsDescription, open_file, UInt8Col, UInt16Col, UInt64Col
 
 # -- Classes ------------------------------------------------------------------
 
@@ -77,8 +78,8 @@ class Converter:
             writer.writeheader()
             writer.writerows(self.values)
 
-    def store_hdf(self, compression_name, **compression_options):
-        """Store acceleration data in HDF5 file
+    def store_hdf_h5py(self, compression_name, **compression_options):
+        """Store acceleration data in HDF5 file using h5py
 
         Parameters
         ----------
@@ -100,12 +101,31 @@ class Converter:
         data['acceleration'] = asarray(self.acceleration)
 
         filepath = self.filepath.with_name(
-            f"{self.filepath.stem}{compression_name}").with_suffix(".hdf5")
+            f"{self.filepath.stem} h5py {compression_name}").with_suffix(
+                ".hdf5")
         with File(filepath, 'w') as hdf:
             hdf.create_dataset("acceleration",
                                data=data,
                                shape=(number_lines, ),
                                **compression_options)
+
+    def store_hdf_pytables(self):
+        """Store acceleration data in HDF5 file using h5py"""
+        class Acceleration(IsDescription):
+            counter = UInt8Col()
+            timestamp = UInt64Col()
+            acceleration = UInt16Col()
+
+        filepath = self.filepath.with_name(
+            f"{self.filepath.stem} PyTables").with_suffix(".hdf5")
+        with open_file(filepath, 'w') as hdf:
+            data = hdf.create_table(hdf.root, "acceleration", Acceleration)
+            row = data.row
+            for value in self.values:
+                row['counter'] = value['counter']
+                row['timestamp'] = value['timestamp']
+                row['acceleration'] = value['acceleration']
+                row.append()
 
 
 # -- Main ---------------------------------------------------------------------
@@ -143,4 +163,7 @@ if __name__ == '__main__':
         name = compression_option['compression_name']
         name = name.lower() if name == "No Compression" else name
         print(f"Store HDF5 data using {name} algorithm")
-        converter.store_hdf(**compression_option)
+        converter.store_hdf_h5py(**compression_option)
+
+    print("Store HDF5 data using PyTables")
+    converter.store_hdf_pytables()
