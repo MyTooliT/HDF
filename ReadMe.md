@@ -50,19 +50,19 @@ Data sizes for 60 seconds of measurement data containing:
 - time stamp
 - acceleration value
 
-| Format          | Size (MB) |
-| --------------- | --------: |
-| Log Data        | 41.929378 |
-| HDF5 Zfp        | 18.208752 |
-| HDF5 FciDecomp  | 18.208744 |
-| No Compression  | 18.178208 |
-| CSV             | 17.259362 |
-| HDF5 LZ4        |  5.757984 |
-| HDF5 LZF        |  5.182623 |
-| HDF5 Bitshuffle |  3.496087 |
-| HDF5 Blosc      |  3.339538 |
-| HDF5 GZip       |  3.147772 |
-| HDF5 Zstd       |  1.926016 |
+| Format              | Size (MB) |
+| ------------------- | --------: |
+| Log Data            | 41.929378 |
+| CSV                 | 13.893716 |
+| HDF5 Zfp            |  6.262776 |
+| HDF5 FciDecomp      |  6.262768 |
+| HDF5 No Compression |  6.250103 |
+| HDF5 LZF            |  3.641792 |
+| HDF5 LZ4            |  3.312457 |
+| HDF5 Blosc          |  2.979832 |
+| HDF5 Bitshuffle     |  2.748987 |
+| HDF5 GZip           |  2.057351 |
+| HDF5 Zstd           |  1.726464 |
 
 ### Tool
 
