@@ -50,9 +50,19 @@ Data sizes for 60 seconds of measurement data containing:
 - time stamp
 - acceleration value
 
-| Log File | CSV     | HDF (Uncompressed) |
-| -------- | ------- | ------------------ |
-| ~ 42 MB  | ~ 17 MB | ~ 18 MB            |
+| Format          | Size (MB) |
+| --------------- | --------: |
+| Log Data        | 41.929378 |
+| HDF5 Zfp        | 18.208752 |
+| HDF5 FciDecomp  | 18.208744 |
+| No Compression  | 18.178208 |
+| CSV             | 17.259362 |
+| HDF5 LZ4        |  5.757984 |
+| HDF5 LZF        |  5.182623 |
+| HDF5 Bitshuffle |  3.496087 |
+| HDF5 Blosc      |  3.339538 |
+| HDF5 GZip       |  3.147772 |
+| HDF5 Zstd       |  1.926016 |
 
 ### Tool
 
@@ -62,7 +72,13 @@ For the data above we used the Python script [`convert.py`](Source/convert.py):
 python Source/convert.py
 ```
 
-The script will store the output files in the directory [`Data`](Data).
+The script will store the output files in the directory [`Data`](Data). Afterward we used the **Unix** command:
+
+```sh
+ls -lS Data/*.{csv,hdf5,txt}
+```
+
+to print the size of the converted files.
 
 #### Requirements
 
