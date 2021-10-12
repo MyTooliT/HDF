@@ -53,16 +53,16 @@ Data sizes for 60 seconds of measurement data containing:
 | Format              | Size (MB) |
 | ------------------- | --------: |
 | Log Data            | 41.929378 |
-| CSV                 | 13.893716 |
-| HDF5 Zfp            |  6.262776 |
-| HDF5 FciDecomp      |  6.262768 |
+| CSV                 | 13.388231 |
+| HDF5 Zfp            |  6.262768 |
+| HDF5 FciDecomp      |  6.262760 |
 | HDF5 No Compression |  6.250103 |
-| HDF5 LZF            |  3.641792 |
-| HDF5 LZ4            |  3.312457 |
-| HDF5 Blosc          |  2.979832 |
-| HDF5 Bitshuffle     |  2.748987 |
-| HDF5 GZip           |  2.057351 |
-| HDF5 Zstd           |  1.726464 |
+| HDF5 LZF            |  3.360693 |
+| HDF5 LZ4            |  2.998656 |
+| HDF5 Blosc          |  1.913076 |
+| HDF5 GZip           |  1.731552 |
+| HDF5 Bitshuffle     |  1.709330 |
+| HDF5 Zstd           |  1.388591 |
 
 ### Tool
 
