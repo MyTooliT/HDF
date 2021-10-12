@@ -7,79 +7,96 @@ from re import compile
 from h5py import File
 from numpy import asarray, recarray
 
-# -- Functions ----------------------------------------------------------------
+# -- Classes ------------------------------------------------------------------
 
 
-def read_log(filepath):
-    """Read acceleration log data"""
+class Converter:
+    """Convert acceleration log data to other formats"""
+    def __init__(self, filepath):
+        """Initialize the log object using the log data of the given file
 
-    line_regex = compile(r"\[I\]\s*\((?P<ms>\d+)ms\)[^\d]+(?P<counter>\d+)"
-                         r"[^\d]+(?P<timestamp>\d+(\.\d+)?)[^\d]+"
-                         r"(?P<acceleration>\d+);")
-    values = []
-    with open(filepath) as file:
-        for line in file:
-            match = line_regex.match(line)
-            if match:
-                values.append({
-                    'millisecond': match['ms'],
-                    'counter': match['counter'],
-                    'timestamp': match['timestamp'],
-                    'acceleration': match['acceleration']
-                })
+        Parameters
+        ----------
 
-    return values
+        filepath:
+            The filepath of a log file that stores acceleration data
 
+        """
 
-def convert_values_rows(values):
-    """Return acceleration data as rows (instead of lines)"""
+        self.filepath = Path(filepath)
 
-    miliseconds = []
-    counters = []
-    timestamps = []
-    acceleration = []
-    for value in values:
-        miliseconds.append(value['millisecond'])
-        counters.append(value['counter'])
-        timestamps.append(value['timestamp'])
-        acceleration.append(value['acceleration'])
+        # Store log data in line based format
+        self.values = None
+        self._read_log()
 
-    return {
-        'millisecond': miliseconds,
-        'counter': counters,
-        'timestamp': timestamps,
-        'acceleration': acceleration
-    }
+        # Store log data in row based format
+        self.milliseconds = []
+        self.counters = []
+        self.timestamps = []
+        self.acceleration = []
+        self._store_rows()
 
+    def _read_log(self):
+        """Read acceleration log data"""
 
-def convert_csv(filepath, values):
-    """Store acceleration data in CSV file"""
+        line_regex = compile(r"\[I\]\s*\((?P<ms>\d+)ms\)[^\d]+(?P<counter>\d+)"
+                             r"[^\d]+(?P<timestamp>\d+(\.\d+)?)[^\d]+"
+                             r"(?P<acceleration>\d+);")
+        values = []
+        with open(self.filepath) as file:
+            for line in file:
+                match = line_regex.match(line)
+                if match:
+                    values.append({
+                        'millisecond': match['ms'],
+                        'counter': match['counter'],
+                        'timestamp': match['timestamp'],
+                        'acceleration': match['acceleration']
+                    })
 
-    with open(Path(filepath).with_suffix(".csv"), 'w', newline='') as csvfile:
-        fieldnames = ['millisecond', 'counter', 'timestamp', 'acceleration']
-        writer = DictWriter(csvfile, fieldnames=fieldnames)
+        self.values = values
 
-        writer.writeheader()
-        writer.writerows(values)
+    def _store_rows(self):
+        """Store acceleration data as rows"""
 
+        for value in self.values:
+            self.milliseconds.append(value['millisecond'])
+            self.counters.append(value['counter'])
+            self.timestamps.append(value['timestamp'])
+            self.acceleration.append(value['acceleration'])
 
-def convert_hdf(filepath, values):
-    """Store acceleration data in HDF5 file"""
+    def store_csv(self):
+        """Store acceleration data in CSV file"""
 
-    types = [('millisecond', int), ('counter', int), ('timestamp', float),
-             ('acceleration', int)]
-    number_lines = len(values['millisecond'])
-    data = recarray(number_lines, dtype=types)
-    data['millisecond'] = asarray(values['millisecond'])
-    data['counter'] = asarray(values['counter'])
-    data['timestamp'] = asarray(values['timestamp'])
-    data['acceleration'] = asarray(values['acceleration'])
-    with File(Path(filepath).with_suffix(".hfd5"), 'w') as hdf:
-        hdf.create_dataset("acceleration", data=data, shape=(number_lines, ))
+        with open(self.filepath.with_suffix(".csv"), 'w',
+                  newline='') as csvfile:
+            fieldnames = [
+                'millisecond', 'counter', 'timestamp', 'acceleration'
+            ]
+            writer = DictWriter(csvfile, fieldnames=fieldnames)
+
+            writer.writeheader()
+            writer.writerows(self.values)
+
+    def store_hdf(self):
+        """Store acceleration data in HDF5 file"""
+
+        types = [('millisecond', int), ('counter', int), ('timestamp', float),
+                 ('acceleration', int)]
+        number_lines = len(self.milliseconds)
+        data = recarray(number_lines, dtype=types)
+        data['millisecond'] = asarray(self.milliseconds)
+        data['counter'] = asarray(self.counters)
+        data['timestamp'] = asarray(self.timestamps)
+        data['acceleration'] = asarray(self.acceleration)
+
+        with File(self.filepath.with_suffix(".hfd5"), 'w') as hdf:
+            hdf.create_dataset("acceleration",
+                               data=data,
+                               shape=(number_lines, ))
 
 
 if __name__ == '__main__':
-    filepath = "Data/Log.txt"
-    values = read_log(filepath)
-    convert_csv(filepath, values)
-    convert_hdf(filepath, convert_values_rows(values))
+    converter = Converter("Data/Log.txt")
+    converter.store_csv()
+    converter.store_hdf()
