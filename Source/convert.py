@@ -7,7 +7,8 @@ from re import compile
 from h5py import File
 from hdf5plugin import Bitshuffle, Blosc, FciDecomp, LZ4, Zfp, Zstd
 from numpy import asarray, recarray, uint8, uint16, uint64
-from tables import IsDescription, open_file, UInt8Col, UInt16Col, UInt64Col
+from tables import (Filters, IsDescription, open_file, UInt8Col, UInt16Col,
+                    UInt64Col)
 
 # -- Classes ------------------------------------------------------------------
 
@@ -109,16 +110,27 @@ class Converter:
                                shape=(number_lines, ),
                                **compression_options)
 
-    def store_hdf_pytables(self):
-        """Store acceleration data in HDF5 file using h5py"""
+    def store_hdf_pytables(self, filters=None):
+        """Store acceleration data in HDF5 file using h5py
+
+        Parameters
+        ----------
+
+        filters:
+            The filter that should be used to store the file
+
+        """
         class Acceleration(IsDescription):
             counter = UInt8Col()
             timestamp = UInt64Col()
             acceleration = UInt16Col()
 
+        compression_name = ("No Compression"
+                            if filters is None else filters.complib)
         filepath = self.filepath.with_name(
-            f"{self.filepath.stem} PyTables").with_suffix(".hdf5")
-        with open_file(filepath, 'w') as hdf:
+            f"{self.filepath.stem} PyTables {compression_name}").with_suffix(
+                ".hdf5")
+        with open_file(filepath, 'w', filters=filters) as hdf:
             data = hdf.create_table(hdf.root, "acceleration", Acceleration)
             row = data.row
             for value in self.values:
@@ -132,9 +144,18 @@ class Converter:
 
 if __name__ == '__main__':
     print("Read log data")
+
+    # =======
+    # = CSV =
+    # =======
+
     converter = Converter("Data/Log.txt")
     print("Store CSV file")
     converter.store_csv()
+
+    # ========
+    # = h5py =
+    # ========
 
     compression_options = [{
         'compression': None,
@@ -162,8 +183,20 @@ if __name__ == '__main__':
     for compression_option in compression_options:
         name = compression_option['compression_name']
         name = name.lower() if name == "No Compression" else name
-        print(f"Store HDF5 data using {name} algorithm")
+        print(f"Store h5py data using {name} algorithm")
         converter.store_hdf_h5py(**compression_option)
 
-    print("Store HDF5 data using PyTables")
-    converter.store_hdf_pytables()
+    # ============
+    # = PyTables =
+    # ============
+
+    filters_list = [
+        None,
+        Filters(4, 'zlib'),
+        Filters(4, 'lzo'),
+        Filters(4, 'blosc'),
+    ]
+    for filters in filters_list:
+        name = "no compression" if filters is None else filters.complib
+        print(f"Store PyTables data using {name} algorithm")
+        converter.store_hdf_pytables(filters)
