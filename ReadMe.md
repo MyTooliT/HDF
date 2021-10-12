@@ -63,7 +63,10 @@ Data sizes for 60 seconds of measurement data containing:
 | h5py Blosc              |  1.913076 |
 | h5py GZip               |  1.731552 |
 | h5py Bitshuffle         |  1.709330 |
+| PyTables lzo            |  1.630033 |
+| PyTables blosc          |  1.540903 |
 | h5py Zstd               |  1.388591 |
+| PyTables zlib           |  1.137004 |
 
 ### Tool
 
