@@ -63,3 +63,11 @@ python Source/convert.py
 ```
 
 The script will store the output files in the directory [`Data`](Data).
+
+#### Requirements
+
+To use the script you need Python `3.9` or later and the [`h5py`](https://www.h5py.org) package:
+
+```sh
+pip install h5py
+```
