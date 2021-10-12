@@ -4,7 +4,7 @@
 
 - Current version: 5
 - Binary file format
-- Usual extension: `.hdf5`
+- Usual extensions: `.hdf5` or `.h5`
 - **Groups**:
   - Specify location of data
   - Can be compared to directory/dictionary keys
