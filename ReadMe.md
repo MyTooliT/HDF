@@ -50,23 +50,23 @@ Data sizes for 60 seconds of measurement data containing:
 - time stamp
 - acceleration value
 
-| Format                  | Size (MB) |
-| ----------------------- | --------: |
-| Log Data                | 41.929378 |
-| CSV                     | 13.388231 |
-| PyTables No Compression |  6.299136 |
-| h5py Zfp                |  6.262768 |
-| h5py FciDecomp          |  6.262760 |
-| h5py No Compression     |  6.250103 |
-| h5py LZF                |  3.360693 |
-| h5py LZ4                |  2.998656 |
-| h5py Blosc              |  1.913076 |
-| h5py GZip               |  1.731552 |
-| h5py Bitshuffle         |  1.709330 |
-| PyTables lzo            |  1.630033 |
-| PyTables blosc          |  1.540903 |
-| h5py Zstd               |  1.388591 |
-| PyTables zlib           |  1.137004 |
+| Format                  | Size (MB) | Works in HDFView |
+| ----------------------- | --------: | :--------------: |
+| Log Data                | 41.929378 |                  |
+| CSV                     | 13.388231 |                  |
+| PyTables No Compression |  6.299136 |        ✅        |
+| h5py Zfp                |  6.262768 |        ✅        |
+| h5py FciDecomp          |  6.262760 |        ✅        |
+| h5py No Compression     |  6.250103 |        ✅        |
+| h5py LZF                |  3.360693 |        ❌        |
+| h5py LZ4                |  2.998656 |        ❌        |
+| h5py Blosc              |  1.913076 |        ❌        |
+| h5py GZip               |  1.731552 |        ✅        |
+| h5py Bitshuffle         |  1.709330 |        ❌        |
+| PyTables lzo            |  1.630033 |        ❌        |
+| PyTables blosc          |  1.540903 |        ❌        |
+| h5py Zstd               |  1.388591 |                  |
+| PyTables zlib           |  1.137004 |        ✅        |
 
 ### Tool
 
