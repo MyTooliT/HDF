@@ -86,11 +86,12 @@ to print the size of the converted files.
 
 To use the script you need Python `3.9` or later and the
 
-- [`h5py`](https://www.h5py.org) and
+- [`h5py`](https://www.h5py.org),
+- [`tables`](http://www.pytables.org), and
 - [`hdf5plugin`](https://pypi.org/project/hdf5plugin/)
 
 packages:
 
 ```sh
-pip install h5py hdf5plugin
+pip install h5py hdf5plugin tables
 ```
