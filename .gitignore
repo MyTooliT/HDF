@@ -1,2 +1,2 @@
-/Data/Log.csv
-/Data/Log.hfd5
+/Data/*.csv
+/Data/*.hdf5
