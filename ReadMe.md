@@ -26,8 +26,9 @@
     - This should not be a big problem since storing a large amount of data with value `0` still results in a `1` KB file
 
 - [PyTables](http://www.pytables.org)
+
   - Database like interface to HDF5
-  - Installation requires HDF5 C library
+  - Installation requires HDF5 C library or binary wheel file ([Windows](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pytables))
 
 ## Tools
 
