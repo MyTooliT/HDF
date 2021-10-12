@@ -6,7 +6,7 @@ from re import compile
 
 from h5py import File
 from hdf5plugin import Bitshuffle, Blosc, FciDecomp, LZ4, Zfp, Zstd
-from numpy import asarray, recarray
+from numpy import asarray, recarray, uint8, uint16
 
 # -- Classes ------------------------------------------------------------------
 
@@ -93,8 +93,8 @@ class Converter:
 
         """
 
-        types = [('millisecond', int), ('counter', int), ('timestamp', float),
-                 ('acceleration', int)]
+        types = [('millisecond', int), ('counter', uint8),
+                 ('timestamp', float), ('acceleration', uint16)]
         number_lines = len(self.milliseconds)
         data = recarray(number_lines, dtype=types)
         data['millisecond'] = asarray(self.milliseconds)
