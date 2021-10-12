@@ -75,7 +75,7 @@ python Source/convert.py
 The script will store the output files in the directory [`Data`](Data). Afterward we used the **Unix** command:
 
 ```sh
-ls -lS Data/*.{csv,hdf5,txt}
+ls -lS Data/*
 ```
 
 to print the size of the converted files.
