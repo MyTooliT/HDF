@@ -6,7 +6,7 @@ from re import compile
 
 from h5py import File
 from hdf5plugin import Bitshuffle, Blosc, FciDecomp, LZ4, Zfp, Zstd
-from numpy import asarray, recarray, uint8, uint16
+from numpy import asarray, recarray, uint8, uint16, uint64
 
 # -- Classes ------------------------------------------------------------------
 
@@ -48,9 +48,12 @@ class Converter:
                 match = line_regex.match(line)
                 if match:
                     values.append({
-                        'counter': int(match['counter']),
-                        'timestamp': float(match['timestamp']),
-                        'acceleration': int(match['acceleration'])
+                        'counter':
+                        int(match['counter']),
+                        'timestamp':
+                        int(float(match['timestamp']) * 1000),
+                        'acceleration':
+                        int(match['acceleration'])
                     })
 
         self.values = values
@@ -88,7 +91,7 @@ class Converter:
 
         """
 
-        types = [('counter', uint8), ('timestamp', float),
+        types = [('counter', uint8), ('timestamp', uint64),
                  ('acceleration', uint16)]
         number_lines = len(self.values)
         data = recarray(number_lines, dtype=types)
