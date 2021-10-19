@@ -4,7 +4,10 @@
 
 - Current version: 5
 - Binary file format
-- Usual extensions: `.hdf5` or `.h5`
+- [Usual extensions](https://www.pytables.org/usersguide/libref/top_level.html#tables.open_file):
+  - `.h5`
+  - `.hdf5`
+  - `.hdf`
 - **Groups**:
   - Specify location of data
   - Can be compared to directory/dictionary keys
