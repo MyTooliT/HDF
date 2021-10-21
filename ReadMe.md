@@ -47,7 +47,6 @@
 
 Data sizes for 60 seconds of measurement data containing:
 
-- time in ms since file creation
 - message counter
 - time stamp
 - acceleration value
